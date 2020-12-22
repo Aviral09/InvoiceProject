@@ -3,10 +3,31 @@ import cv2
 import math
 from scipy import ndimage
 import pytesseract
+from pdf2image import convert_from_path
+
+#convert the pdf to image 
+def convert_from_pdf_to_image():
+    PDF_FILE_LOCATION = input()
+    pages = convert_from_path(PDF_FILE_LOCATION)
+
+    for page in pages:
+        page.save('out.jpg', 'JPEG')
+
+    IMAGE_FILE_LOCATION = 'out.jpg'
+    input_img = cv2.imread(IMAGE_FILE_LOCATION)
+    return input_img
+
+# Take input . If the input is pdf then convert it to image . If input is image then proceed
+extension = input()         
+if extension =='pdf':
+    input_img=convert_from_pdf_to_image()
+if extension =='image':
+    IMAGE_FILE_LOCATION = input()
+    input_img = cv2.imread(IMAGE_FILE_LOCATION)
 
 
-IMAGE_FILE_LOCATION = input()
-input_img = cv2.imread(IMAGE_FILE_LOCATION)
+
+
 
 def orientation_correction(img, save_image = False):
     # GrayScale Conversion for the Canny Algorithm  
